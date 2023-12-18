@@ -1,130 +1,131 @@
 pyroscope:
-  image:
-    registry: quay.io
-    name: giantswarm/pyroscope
-    tag: 1.2.1
-    pullPolicy: IfNotPresent
-  
-  replicaCount: 1
+  pyroscope:
+    image:
+      registry: quay.io
+      name: giantswarm/pyroscope
+      tag: 1.2.1
+      pullPolicy: IfNotPresent
+    
+    replicaCount: 1
 
-  config: |
-    {{- if .Values.minio.enabled }}
-    storage:
-      backend: s3
-      s3:
-        endpoint: "{{ include "pyroscope.fullname" . }}-minio:9000"
-        bucket_name: {{(index .Values.minio.buckets 0).name | quote }}
-        access_key_id: {{ .Values.minio.rootUser | quote }}
-        secret_access_key: {{ .Values.minio.rootPassword | quote }}
-        insecure: true
-    {{- end }}
+    config: |
+      {{- if .Values.minio.enabled }}
+      storage:
+        backend: s3
+        s3:
+          endpoint: "{{ include "pyroscope.fullname" . }}-minio:9000"
+          bucket_name: {{(index .Values.minio.buckets 0).name | quote }}
+          access_key_id: {{ .Values.minio.rootUser | quote }}
+          secret_access_key: {{ .Values.minio.rootPassword | quote }}
+          insecure: true
+      {{- end }}
 
-  extraArgs:
-    log.level: debug
-  
-  resources: {}
-  
-  serviceAccount:
-    create: true
-    annotations: {}
-    name: ""
-  
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
-    seccompProfile:
-      type: RuntimeDefault
+    extraArgs:
+      log.level: debug
+    
+    resources: {}
+    
+    serviceAccount:
+      create: true
+      annotations: {}
+      name: ""
+    
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      seccompProfile:
+        type: RuntimeDefault
 
-  podSecurityContext:
-    fsGroup: 1000
-    runAsGroup: 1000
-    runAsNonRoot: true
-    runAsUser: 1000
-    seccompProfile:
-      type: RuntimeDefault
+    podSecurityContext:
+      fsGroup: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
 
-  podDisruptionBudget:
-    enabled: true
-    maxUnavailable: 1
-  
-  service:
-    type: ClusterIP
-    port: 4040
-    port_name: http2
-    scheme: HTTP
+    podDisruptionBudget:
+      enabled: true
+      maxUnavailable: 1
+    
+    service:
+      type: ClusterIP
+      port: 4040
+      port_name: http2
+      scheme: HTTP
 
-  memberlist:
-    port: 7946
-    port_name: memberlist
-  
-  components:
-    querier:
-      kind: Deployment
-      replicaCount: 3
-      resources: {}
-    query-frontend:
-      kind: Deployment
-      replicaCount: 2
-      resources: {}
-    query-scheduler:
-      kind: Deployment
-      replicaCount: 2
-      resources: {}
-    distributor:
-      kind: Deployment
-      replicaCount: 2
-      resources: {}
-    ingester:
-      kind: StatefulSet
-      replicaCount: 3
-      terminationGracePeriodSeconds: 600
-      resources: {}
-    compactor:
-      kind: StatefulSet
-      replicaCount: 3
+    memberlist:
+      port: 7946
+      port_name: memberlist
+    
+    components:
+      querier:
+        kind: Deployment
+        replicaCount: 3
+        resources: {}
+      query-frontend:
+        kind: Deployment
+        replicaCount: 2
+        resources: {}
+      query-scheduler:
+        kind: Deployment
+        replicaCount: 2
+        resources: {}
+      distributor:
+        kind: Deployment
+        replicaCount: 2
+        resources: {}
+      ingester:
+        kind: StatefulSet
+        replicaCount: 3
+        terminationGracePeriodSeconds: 600
+        resources: {}
+      compactor:
+        kind: StatefulSet
+        replicaCount: 3
+        persistence:
+          enabled: false
+        resources: {}
+      store-gateway:
+        kind: StatefulSet
+        replicaCount: 3
+        persistence:
+          enabled: false
+        resources: {}
+      tenant-settings:
+        kind: Deployment
+        replicaCount: 1
+        resources: {}
+    
+    # -------------------------------------
+    # Configuration for `minio` child chart
+    # -------------------------------------
+    minio:
+      enabled: false
+      replicas: 1
+      # Minio requires 2 to 16 drives for erasure code (drivesPerNode * replicas)
+      # https://docs.min.io/docs/minio-erasure-code-quickstart-guide
+      # Since we only have 1 replica, that means 2 drives must be used.
+      drivesPerNode: 2
+      rootUser: grafana-pyroscope
+      rootPassword: supersecret
+      buckets:
+        - name: grafana-pyroscope-data
+          policy: none
+          purge: false
       persistence:
-        enabled: false
-      resources: {}
-    store-gateway:
-      kind: StatefulSet
-      replicaCount: 3
-      persistence:
-        enabled: false
-      resources: {}
-    tenant-settings:
-      kind: Deployment
-      replicaCount: 1
-      resources: {}
-  
-  # -------------------------------------
-  # Configuration for `minio` child chart
-  # -------------------------------------
-  minio:
-    enabled: false
-    replicas: 1
-    # Minio requires 2 to 16 drives for erasure code (drivesPerNode * replicas)
-    # https://docs.min.io/docs/minio-erasure-code-quickstart-guide
-    # Since we only have 1 replica, that means 2 drives must be used.
-    drivesPerNode: 2
-    rootUser: grafana-pyroscope
-    rootPassword: supersecret
-    buckets:
-      - name: grafana-pyroscope-data
-        policy: none
-        purge: false
-    persistence:
-      size: 5Gi
+        size: 5Gi
 
-  ingress:
-    enabled: false
-    className: ""
-    # hosts:
-    #   - localhost
-    # tls:
-    #   - secretName: certificate
+    ingress:
+      enabled: false
+      className: ""
+      # hosts:
+      #   - localhost
+      # tls:
+      #   - secretName: certificate
