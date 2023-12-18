@@ -2,3 +2,5 @@ replace-chart-version-with-git: true
 generate-metadata: true
 chart-dir: ./helm/pyroscope
 destination: ./build
+ct-config: ./.circleci/ct-config.yaml
+
