@@ -5,7 +5,7 @@ pyroscope:
       name: giantswarm/pyroscope
       tag: 1.2.1
       pullPolicy: IfNotPresent
-    
+
     replicaCount: 1
 
     config: |
@@ -22,14 +22,14 @@ pyroscope:
 
     extraArgs:
       log.level: debug
-    
+
     resources: {}
-    
+
     serviceAccount:
       create: true
       annotations: {}
       name: ""
-    
+
     securityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -53,7 +53,7 @@ pyroscope:
     podDisruptionBudget:
       enabled: true
       maxUnavailable: 1
-    
+
     service:
       type: ClusterIP
       port: 4040
@@ -63,7 +63,7 @@ pyroscope:
     memberlist:
       port: 7946
       port_name: memberlist
-    
+
     components:
       querier:
         kind: Deployment
@@ -102,7 +102,7 @@ pyroscope:
         kind: Deployment
         replicaCount: 1
         resources: {}
-    
+
     # -------------------------------------
     # Configuration for `minio` child chart
     # -------------------------------------
