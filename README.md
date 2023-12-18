@@ -2,10 +2,10 @@
 
 [Read me after cloning this template (GS staff only)](https://handbook.giantswarm.io/docs/dev-and-releng/app-developer-processes/adding_app_to_appcatalog/)
 
-# {APP-NAME} chart
+# pyroscope chart
 
-Giant Swarm offers a {APP-NAME} App which can be installed in workload clusters.
-Here we define the {APP-NAME} chart with its templates and default configuration.
+Giant Swarm offers a pyroscope App which can be installed in workload clusters.
+Here we define the pyroscope chart with its templates and default configuration.
 
 **What is this app?**
 
