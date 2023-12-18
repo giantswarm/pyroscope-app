@@ -5,6 +5,70 @@
         "pyroscope": {
             "type": "object",
             "properties": {
+                "agent": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "ingress": {
+                    "type": "object",
+                    "properties": {
+                        "className": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "minio": {
+                    "type": "object",
+                    "properties": {
+                        "buckets": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "policy": {
+                                        "type": "string"
+                                    },
+                                    "purge": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        },
+                        "drivesPerNode": {
+                            "type": "integer"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "persistence": {
+                            "type": "object",
+                            "properties": {
+                                "size": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "rootPassword": {
+                            "type": "string"
+                        },
+                        "rootUser": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "pyroscope": {
                     "type": "object",
                     "properties": {
@@ -172,17 +236,6 @@
                                 }
                             }
                         },
-                        "ingress": {
-                            "type": "object",
-                            "properties": {
-                                "className": {
-                                    "type": "string"
-                                },
-                                "enabled": {
-                                    "type": "boolean"
-                                }
-                            }
-                        },
                         "memberlist": {
                             "type": "object",
                             "properties": {
@@ -190,51 +243,6 @@
                                     "type": "integer"
                                 },
                                 "port_name": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "minio": {
-                            "type": "object",
-                            "properties": {
-                                "buckets": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "policy": {
-                                                "type": "string"
-                                            },
-                                            "purge": {
-                                                "type": "boolean"
-                                            }
-                                        }
-                                    }
-                                },
-                                "drivesPerNode": {
-                                    "type": "integer"
-                                },
-                                "enabled": {
-                                    "type": "boolean"
-                                },
-                                "persistence": {
-                                    "type": "object",
-                                    "properties": {
-                                        "size": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "replicas": {
-                                    "type": "integer"
-                                },
-                                "rootPassword": {
-                                    "type": "string"
-                                },
-                                "rootUser": {
                                     "type": "string"
                                 }
                             }
