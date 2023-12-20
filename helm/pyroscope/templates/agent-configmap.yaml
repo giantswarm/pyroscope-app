@@ -79,8 +79,8 @@ data:
                     target_label  = "container"
                 }
             }
-        {{- $profileTypes := list "memory" "cpu" "goroutine" "block" "mutex" "fgprof" }}
-        {{- range $profileTypes }}
+            {{- $profileTypes := list "memory" "cpu" "goroutine" "block" "mutex" "fgprof" }}
+            {{- range $profileTypes }}
 
             discovery.relabel "kubernetes_pods_{{.}}_default_name" {
                 targets = concat(discovery.relabel.kubernetes_pods.output)
@@ -186,7 +186,7 @@ data:
                 {{- end }}
                 }
             }
-        {{- end }}
+            {{- end }}
 
             pyroscope.write "pyroscope_write" {
                 endpoint {

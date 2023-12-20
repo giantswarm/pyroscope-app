@@ -110,9 +110,13 @@ pyroscope:
   # Configuration for `grafana-agent` child chart
   # -------------------------------------
   agent:
-    enabled: false
+    enabled: true
+    agent:
+      configMap:
+        create: true
+        name: grafana-agent-pyroscope-config
     configMap:
-      create: true
+      create: false
       name: grafana-agent-config-pyroscope
 
   # -------------------------------------
