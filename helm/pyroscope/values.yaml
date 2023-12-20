@@ -1,6 +1,3 @@
-ciliumNetworkPolicy:
-  enabled: true
-
 pyroscope:
   pyroscope:
     image:
@@ -114,10 +111,7 @@ pyroscope:
     agent:
       configMap:
         create: true
-        name: grafana-agent-pyroscope-config
-    configMap:
-      create: false
-      name: grafana-agent-config-pyroscope
+        name: grafana-agent-config-pyroscope
 
   # -------------------------------------
   # Configuration for `minio` child chart
