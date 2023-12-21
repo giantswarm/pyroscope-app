@@ -108,9 +108,19 @@ pyroscope:
   # -------------------------------------
   agent:
     enabled: true
+    patchJob:
+      image:
+        registry: docker.io
+        name: giantswarm/kubectl
+        tag: 1.28.4
+        pullPolicy: IfNotPresent
     agent:
+      securityContext:
+        privileged: true
+        runAsGroup: 0
+        runAsUser: 0
       configMap:
-        create: true
+        create: false
         name: grafana-agent-config-pyroscope
 
   # -------------------------------------

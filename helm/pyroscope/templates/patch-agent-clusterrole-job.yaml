@@ -1,0 +1,32 @@
+{{- if .Values.pyroscope.agent.enabled }}
+{{- if not .Values.pyroscope.agent.agent.configMap.create }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name}}-agent-patch
+  namespace: {{ .Release.Namespace }}
+  labels:
+     {{- include "pyroscope.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "pyroscope.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Release.Name}}-agent-patch
+      restartPolicy: OnFailure      
+      containers:
+      - name: {{ .Release.Name}}-agent-patch
+        image: "{{ .Values.pyroscope.agent.patchJob.image.registry }}/{{ .Values.pyroscope.agent.patchJob.image.name }}:{{ .Values.pyroscope.agent.patchJob.image.tag }}"
+        imagePullPolicy: {{ .Values.pyroscope.agent.patchJob.image.pullPolicy }}
+        args:
+        - "patch"
+        - "clusterrole"
+        - "pyroscope-agent"
+        - "--type=json"
+        - '-p=[{"op": "add", "path": "/rules/0", "value":{ "apiGroups": ["extensions"], "resourceNames": ["pyroscope-agent"], "resources": ["podsecuritypolicies"], "verbs": ["use"]}}]'
+{{- end }}
+{{- end }}

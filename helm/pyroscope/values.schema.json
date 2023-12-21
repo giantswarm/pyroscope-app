@@ -21,6 +21,20 @@
                                             "type": "string"
                                         }
                                     }
+                                },
+                                "securityContext": {
+                                    "type": "object",
+                                    "properties": {
+                                        "privileged": {
+                                            "type": "boolean"
+                                        },
+                                        "runAsGroup": {
+                                            "type": "integer"
+                                        },
+                                        "runAsUser": {
+                                            "type": "integer"
+                                        }
+                                    }
                                 }
                             }
                         },

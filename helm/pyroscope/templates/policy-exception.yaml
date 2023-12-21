@@ -1,0 +1,36 @@
+{{- if .Values.pyroscope.agent.enabled }}
+{{- if not .Values.pyroscope.agent.agent.configMap.create }}
+apiVersion: kyverno.io/v2alpha1
+kind: PolicyException
+metadata:
+  labels:
+    {{- include "pyroscope.labels" . | nindent 4 }}
+  name: pyroscope-agent
+  namespace: giantswarm
+spec:
+  exceptions:
+  - policyName: require-run-as-non-root-user
+    ruleNames:
+    - run-as-non-root-user
+    - autogen-run-as-non-root-user
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+    - autogen-run-as-non-root
+  - policyName: disallow-privileged-containers
+    ruleNames:
+    - privileged-containers
+    - autogen-privileged-containers
+  match:
+    any:
+    - resources:
+        kinds:
+        - StatefulSet
+        - ReplicaSet
+        - Pod
+        names:
+        - pyroscope-agent*
+        namespaces:
+        - {{ .Release.Namespace }}
+{{- end }}
+{{- end }}
