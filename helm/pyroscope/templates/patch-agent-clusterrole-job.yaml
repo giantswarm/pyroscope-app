@@ -1,5 +1,5 @@
-{{- if .Values.pyroscope.agent.enabled }}
-{{- if not .Values.pyroscope.agent.agent.configMap.create }}
+{{- if .Values.pyroscopeagent.enabled }}
+{{- if not .Values.pyroscopeagent.agent.configMap.create }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -20,8 +20,8 @@ spec:
       restartPolicy: OnFailure      
       containers:
       - name: {{ .Release.Name}}-agent-patch
-        image: "{{ .Values.pyroscope.agent.patchJob.image.registry }}/{{ .Values.pyroscope.agent.patchJob.image.name }}:{{ .Values.pyroscope.agent.patchJob.image.tag }}"
-        imagePullPolicy: {{ .Values.pyroscope.agent.patchJob.image.pullPolicy }}
+        image: "{{ .Values.pyroscopeagent.patchJob.image.registry }}/{{ .Values.pyroscopeagent.patchJob.image.name }}:{{ .Values.pyroscopeagent.patchJob.image.tag }}"
+        imagePullPolicy: {{ .Values.pyroscopeagent.patchJob.image.pullPolicy }}
         args:
         - "patch"
         - "clusterrole"
