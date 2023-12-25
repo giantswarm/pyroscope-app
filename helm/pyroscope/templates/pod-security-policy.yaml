@@ -5,6 +5,7 @@ kind: PodSecurityPolicy
 metadata:
   annotations:
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+    "helm.sh/hook": pre-install,pre-upgrade
   labels:
     {{- include "pyroscope.labels" . | nindent 4 }}
   name: pyroscope-agent

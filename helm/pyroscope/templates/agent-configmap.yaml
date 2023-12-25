@@ -28,6 +28,8 @@ metadata:
   labels:
     {{- include "pyroscope.labels" . | nindent 4 }}
   name: {{ .Values.pyroscope.agent.agent.configMap.name }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
   namespace: {{ .Release.Namespace }}
 {{- end }}
 {{- end }}

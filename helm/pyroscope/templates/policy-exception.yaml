@@ -5,6 +5,8 @@ kind: PolicyException
 metadata:
   labels:
     {{- include "pyroscope.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
   name: pyroscope-agent
   namespace: giantswarm
 spec:
