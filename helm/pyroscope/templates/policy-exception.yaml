@@ -1,5 +1,4 @@
-{{- if .Values.pyroscopeagent.enabled }}
-{{- if not .Values.pyroscopeagent.agent.configMap.create }}
+{{- if and .Values.pyroscopeagent.enabled (not .Values.pyroscopeagent.agent.configMap.create) }}
 apiVersion: kyverno.io/v2alpha1
 kind: PolicyException
 metadata:
@@ -34,5 +33,4 @@ spec:
         - pyroscope-agent*
         namespaces:
         - {{ .Release.Namespace }}
-{{- end }}
 {{- end }}

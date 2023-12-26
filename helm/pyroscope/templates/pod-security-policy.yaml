@@ -1,5 +1,4 @@
-{{- if .Values.pyroscopeagent.enabled }}
-{{- if not .Values.pyroscopeagent.agent.configMap.create }}
+{{- if and .Values.pyroscopeagent.enabled (not .Values.pyroscopeagent.agent.configMap.create) }}
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
@@ -26,5 +25,4 @@ spec:
   - emptyDir
   - projected
   - configMap
-{{- end }}
 {{- end }}

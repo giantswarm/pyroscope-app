@@ -1,5 +1,5 @@
 pyroscopeagent:
-  enabled: true
+  enabled: false
   patchJob:
     image:
       registry: gsoci.azurecr.io

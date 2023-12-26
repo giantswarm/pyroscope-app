@@ -1,5 +1,4 @@
-{{- if .Values.pyroscopeagent.enabled }}
-{{- if not .Values.pyroscopeagent.agent.configMap.create }}
+{{- if and .Values.pyroscopeagent.enabled (not .Values.pyroscopeagent.agent.configMap.create) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -28,5 +27,4 @@ spec:
         - "pyroscope-agent"
         - "--type=json"
         - '-p=[{"op": "add", "path": "/rules/0", "value":{ "apiGroups": ["extensions"], "resourceNames": ["pyroscope-agent"], "resources": ["podsecuritypolicies"], "verbs": ["use"]}}]'
-{{- end }}
 {{- end }}

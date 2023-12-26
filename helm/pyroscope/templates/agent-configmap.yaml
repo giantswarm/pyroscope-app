@@ -1,5 +1,4 @@
-{{- if .Values.pyroscopeagent.enabled }}
-{{- if not .Values.pyroscopeagent.agent.configMap.create }}
+{{- if and .Values.pyroscopeagent.enabled (not .Values.pyroscopeagent.agent.configMap.create) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -31,5 +30,4 @@ data:
           {{- end }}
         }
     }
-{{- end }}
 {{- end }}
