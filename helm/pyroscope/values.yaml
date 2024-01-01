@@ -1,7 +1,7 @@
 pyroscope:
   pyroscope:
     image:
-      registry: quay.io
+      registry: gsoci.azurecr.io
       name: giantswarm/pyroscope
       tag: 1.2.1
       pullPolicy: IfNotPresent
