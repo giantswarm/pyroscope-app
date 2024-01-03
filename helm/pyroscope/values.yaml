@@ -1,4 +1,16 @@
+psp:
+  enabled: false
+  name: pyroscope-capi
+
+kyvernoPolicyExceptions:
+  enabled: false
+  namespace: giantswarm
+
 pyroscope:
+
+  serviceAccount:
+    create: true
+
   pyroscope:
     image:
       registry: gsoci.azurecr.io
