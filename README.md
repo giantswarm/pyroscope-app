@@ -7,7 +7,7 @@ Here we define the pyroscope chart with its templates and default configuration.
 
 **What is this app?**
 
-Pyroscope is an open-source continuous profiling platform integrated to `grafana`, allowing its users to have a deeper understanding of their workloads's resources usage. It thus allow one to optimize one's resources consumption and can be useful in a cost-saving approach.
+Pyroscope is an open-source continuous profiling platform integrated to `grafana`, allowing its users to have a deeper understanding of their workloads's resources usage. It thus allows users to optimize one's resources consumption and can be useful in a cost-saving approach.
 
 When used at its fullest, Pyroscope can be integrated with other observability signals such as metrics, logs and traces to have a complete view of a cluster's behavior.
 
@@ -26,7 +26,7 @@ This can be done by creating a `Bucket` CR when the cluster is runing the [objec
 
 ### values.yaml
 
-This is an example of a values file for a CAPZ cluster (namely : `glippy`) you could upload using our web interface :
+This is an example of a values file for a CAPZ cluster (namely : `glippy`) you could upload using our web interface:
 
 ```yaml
 psp:
@@ -80,7 +80,7 @@ spec:
   version: 0.1.0
 ```
 
-Note that if you want to deploy the app on a management cluster you will need to add the `app-operator.giantswarm.io/version: 0.0.0` label to the App CR's metadata so that the `app-operator` pick up and deploy the app.
+Note that if you want to deploy the app on a management cluster you will need to add the `app-operator.giantswarm.io/version: 0.0.0` label to the App CR's metadata so that the `app-operator` picks up and deploys the app.
 
 The `pyroscope-user-values` configmap is the one that you can create from the values file's example as shown in the previous section.
 
