@@ -2,36 +2,6 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
-        "ingress": {
-            "type": "object",
-            "properties": {
-                "enabled": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "kyvernoPolicyExceptions": {
-            "type": "object",
-            "properties": {
-                "enabled": {
-                    "type": "boolean"
-                },
-                "namespace": {
-                    "type": "string"
-                }
-            }
-        },
-        "psp": {
-            "type": "object",
-            "properties": {
-                "enabled": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "pyroscope": {
             "type": "object",
             "properties": {
@@ -388,14 +358,6 @@
                                     "type": "string"
                                 }
                             }
-                        }
-                    }
-                },
-                "serviceAccount": {
-                    "type": "object",
-                    "properties": {
-                        "create": {
-                            "type": "boolean"
                         }
                     }
                 }
