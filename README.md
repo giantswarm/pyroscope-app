@@ -67,8 +67,6 @@ kind: App
 metadata:
   name: pyroscope
   namespace: giantswarm
-  labels:
-    app-operator.giantswarm.io/version: 0.0.0
 spec:
   catalog: giantswarm-playground-test
   kubeConfig:
@@ -82,9 +80,19 @@ spec:
   version: 0.1.0
 ```
 
+Note that if you want to deploy the app on a management cluster you will need to add the `app-operator.giantswarm.io/version: 0.0.0` label to the App CR's metadata so that the `app-operator` pick up and deploy the app.
+
 The `pyroscope-user-values` configmap is the one that you can create from the values file's example as shown in the previous section.
 
 See our [full reference on how to configure apps](https://docs.giantswarm.io/getting-started/app-platform/app-configuration/) for more details.
+
+## Shipping profiles
+
+This app deploys `pyroscope` on a cluster but pyroscope itself won't scrape profiles on its own. To achieve this, you will need to deploy an instance of the [grafana-agent-app](https://github.com/giantswarm/grafana-agent-app) (you can name the app `pyroscope-agent` not to mistake it with another `grafana-agent` that might be running on the cluster) with the correct config.
+
+## Viewing profiles
+
+You can visualize profiles as a flame graph from the Grafana's explore panel with `Pyroscope` as a data source.
 
 ## Limitations
 
