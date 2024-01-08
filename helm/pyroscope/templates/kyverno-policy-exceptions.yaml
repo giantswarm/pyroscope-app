@@ -1,0 +1,47 @@
+{{- if .Values.kyvernoPolicyExceptions.enabled }}
+apiVersion: kyverno.io/v2alpha1
+kind: PolicyException
+metadata:
+  annotations: 
+    "helm.sh/hook": "pre-install,pre-upgrade"
+  labels:
+    {{- include "pyroscope.labels" . | nindent 4 }}
+  name: {{ include "pyroscope.fullname" . }}
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace }}
+spec:
+  exceptions:
+  - policyName: disallow-capabilities-strict
+    ruleNames:
+    - require-drop-all
+    - autogen-require-drop-all
+  - policyName: disallow-privilege-escalation
+    ruleNames:
+    - privilege-escalation
+    - autogen-privilege-escalation
+  - policyName: require-run-as-nonroot
+    ruleNames:
+    - run-as-non-root
+    - autogen-run-as-non-root
+  - policyName: restrict-seccomp-strict
+    ruleNames:
+    - check-seccomp-strict
+    - autogen-check-seccomp-strict
+  - policyName: require-run-as-non-root-user
+    ruleNames:
+    - run-as-non-root-user
+    - autogen-run-as-non-root-user
+  - policyName: restrict-image-registries
+    ruleNames:
+    - validate-registries
+    - autogen-validate-registries
+  match:
+    any:
+    - resources:
+        kinds:
+        - StatefulSet
+        - Pod
+        names:
+        - pyroscope-minio*
+        namespaces:
+        - monitoring
+{{- end }}
