@@ -19,15 +19,39 @@ This app is currently not a default one, meaning that it won't be deployed autom
 
 In order to install pyroscope onto a management cluster, you will have to create an [App resource](https://docs.giantswarm.io/use-the-api/management-api/crd/apps.application.giantswarm.io/) in the management cluster as explained in [Getting started with App Platform](https://docs.giantswarm.io/getting-started/app-platform/).
 
+You will also have to create an object storage, either by enabling `MinIO` in the values file (only working on vintage clusters) or by providing an access to an existing object storage solution you own.
+This can be done by creating a `Bucket` CR when the cluster is runing the [object-storage-operator](https://github.com/giantswarm/object-storage-operator).
+
 ## Configuring
 
 ### values.yaml
 
-**This is an example of a values file you could upload using our web interface.**
+This is an example of a values file for a CAPZ cluster (namely : `glippy`) you could upload using our web interface :
 
 ```yaml
-# values.yaml
-
+psp:
+  enabled: true
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-giantswarm
+    giantswarm.io/external-dns: managed
+  className: nginx
+  hosts:
+    - pyroscope.glippy.azuretest.gigantic.io
+  tls:
+    - hosts:
+        - pyroscope.glippy.azuretest.gigantic.io
+      secretName: pyroscope-ingress-cert
+pyroscope:
+  pyroscope:
+    config: |
+      storage:
+        backend: azure
+        azure:
+          account_name: "<azure_storage_account_name>"
+          account_key: "<azure_storage_account_key>"
+          container_name: "giantswarm-glippy-pyroscope"
 ```
 
 ### Sample App CR and ConfigMap for the management cluster
@@ -43,6 +67,8 @@ kind: App
 metadata:
   name: pyroscope
   namespace: giantswarm
+  labels:
+    app-operator.giantswarm.io/version: 0.0.0
 spec:
   catalog: giantswarm-playground-test
   kubeConfig:
@@ -62,7 +88,7 @@ See our [full reference on how to configure apps](https://docs.giantswarm.io/get
 
 ## Limitations
 
-This app is still a work in progress.
+Due to upstream limitations, `Pyroscope` cannot be run with `MinIO` as an object storage solution on CAPI clusters.
 
 ## Credit
 
