@@ -39,10 +39,10 @@ pyroscope:
       giantswarm.io/external-dns: managed
     className: nginx
     hosts:
-      - pyroscope.glippy.azuretest.gigantic.io
+      - pyroscope.example.com
     tls:
       - hosts:
-          - pyroscope.glippy.azuretest.gigantic.io
+          - pyroscope.example.com
         secretName: pyroscope-ingress-cert
   pyroscope:
     config: |
