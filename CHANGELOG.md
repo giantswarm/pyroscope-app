@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changed
 
-- Upgraded pyroscope chart from 1.2.1 to 1.2.3
+- Upgraded pyroscope chart from 1.3.1 to 1.3.3
 - Use upstream ingress instead of custom one.
 
 ## [0.1.0] - 2024-01-08
