@@ -31,19 +31,19 @@ This is an example of a values file for a CAPZ cluster (namely : `glippy`) you c
 ```yaml
 psp:
   enabled: true
-ingress:
-  enabled: true
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-giantswarm
-    giantswarm.io/external-dns: managed
-  className: nginx
-  hosts:
-    - pyroscope.glippy.azuretest.gigantic.io
-  tls:
-    - hosts:
-        - pyroscope.glippy.azuretest.gigantic.io
-      secretName: pyroscope-ingress-cert
 pyroscope:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-giantswarm
+      giantswarm.io/external-dns: managed
+    className: nginx
+    hosts:
+      - pyroscope.example.com
+    tls:
+      - hosts:
+          - pyroscope.example.com
+        secretName: pyroscope-ingress-cert
   pyroscope:
     config: |
       storage:
