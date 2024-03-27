@@ -8,7 +8,7 @@ sources:
 version: 0.2.0
 dependencies:
   - name: pyroscope
-    version: 1.3.3
+    version: 1.5.1
     repository: https://grafana.github.io/helm-charts
 maintainers:
   - name: giantswarm/team-atlas
