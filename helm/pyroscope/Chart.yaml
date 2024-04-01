@@ -3,6 +3,7 @@ appVersion: 1.2.1
 name: pyroscope
 description: Helm chart for Pyroscope
 home: https://github.com/giantswarm/pyroscope
+icon: https://s.giantswarm.io/app-icons/grafana-pyroscope/1/light.svg
 sources:
   - https://github.com/grafana/pyroscope/tree/main/operations/pyroscope/helm/pyroscope
 version: 0.2.0
