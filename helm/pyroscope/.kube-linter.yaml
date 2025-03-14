@@ -25,3 +25,4 @@ checks:
   - "non-existent-service-account"
   - "privileged-ports"
   - "no-anti-affinity"
+  - "pdb-unhealthy-pod-eviction-policy"
