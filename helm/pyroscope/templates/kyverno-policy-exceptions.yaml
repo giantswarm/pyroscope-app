@@ -1,9 +1,6 @@
 {{- if .Values.kyvernoPolicyExceptions.enabled }}
 {{ if .Capabilities.APIVersions.Has "kyverno.io/v2/PolicyException" -}}
 apiVersion: kyverno.io/v2
-{{- else }}
-apiVersion: kyverno.io/v2beta1
-{{- end }}
 kind: PolicyException
 metadata:
   annotations: 
@@ -48,4 +45,5 @@ spec:
         - pyroscope-minio*
         namespaces:
         - monitoring
+{{- end }}
 {{- end }}
