@@ -26,3 +26,5 @@ checks:
   - "privileged-ports"
   - "no-anti-affinity"
   - "pdb-unhealthy-pod-eviction-policy"
+  - "restart-policy"
+  - "job-ttl-seconds-after-finished"
