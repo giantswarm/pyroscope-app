@@ -7,7 +7,6 @@ kyvernoPolicyExceptions:
   namespace: giantswarm
 
 pyroscope:
-
   serviceAccount:
     create: true
 
