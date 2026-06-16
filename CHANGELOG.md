@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Change team annotation in `Chart.yaml` to OpenContainers format (`io.giantswarm.application.team`).
 - Update PolicyExceptions to v2 and fallback to v2beta1.
+- Fix ABS config to not override AppVersion in Chart.yaml
 
 ## [0.2.0] - 2024-01-18
 
