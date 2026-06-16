@@ -13,6 +13,7 @@ workflows:
           app_catalog_test: giantswarm-playground-test-catalog
           ct_config: ".circleci/ct-config.yaml"
           chart: "pyroscope"
+          override_app_version: false
           # Trigger job on git tag.
           filters:
             tags:
