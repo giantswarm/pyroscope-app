@@ -10,11 +10,15 @@ pyroscope:
   serviceAccount:
     create: true
 
+  architecture:
+    microservices:
+      enabled: true
+
   pyroscope:
     image:
       registry: gsoci.azurecr.io
-      name: giantswarm/pyroscope
-      tag: 1.2.1
+      repository: giantswarm/pyroscope
+      tag: 2.2.0
       pullPolicy: IfNotPresent
 
     replicaCount: 1
@@ -75,44 +79,10 @@ pyroscope:
       port: 7946
       port_name: memberlist
 
-    components:
-      querier:
-        kind: Deployment
-        replicaCount: 3
-        resources: {}
-      query-frontend:
-        kind: Deployment
-        replicaCount: 2
-        resources: {}
-      query-scheduler:
-        kind: Deployment
-        replicaCount: 2
-        resources: {}
-      distributor:
-        kind: Deployment
-        replicaCount: 2
-        resources: {}
-      ingester:
-        kind: StatefulSet
-        replicaCount: 3
-        terminationGracePeriodSeconds: 600
-        resources: {}
-      compactor:
-        kind: StatefulSet
-        replicaCount: 3
-        persistence:
-          enabled: false
-        resources: {}
-      store-gateway:
-        kind: StatefulSet
-        replicaCount: 3
-        persistence:
-          enabled: false
-        resources: {}
-      tenant-settings:
-        kind: Deployment
-        replicaCount: 1
-        resources: {}
+    # Left empty on purpose: the components are taken from the upstream
+    # `architecture.microservices.v2` defaults, which carry the metastore raft
+    # arguments and resource requests each v2 component needs.
+    components: {}
 
   # -------------------------------------
   # Configuration for `grafana-agent` child chart
@@ -124,7 +94,10 @@ pyroscope:
   # Configuration for `minio` child chart
   # -------------------------------------
   minio:
-    enabled: false
+    # Required: the v2 storage architecture needs an object store shared by
+    # segment-writer, compaction-worker and query-backend. Point `pyroscope.config`
+    # at an external S3 bucket instead if one is available.
+    enabled: true
     replicas: 1
     # Minio requires 2 to 16 drives for erasure code (drivesPerNode * replicas)
     # https://docs.min.io/docs/minio-erasure-code-quickstart-guide

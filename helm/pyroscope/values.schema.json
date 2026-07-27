@@ -43,6 +43,19 @@
                         }
                     }
                 },
+                "architecture": {
+                    "type": "object",
+                    "properties": {
+                        "microservices": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
                 "ingress": {
                     "type": "object",
                     "properties": {
@@ -103,140 +116,7 @@
                     "type": "object",
                     "properties": {
                         "components": {
-                            "type": "object",
-                            "properties": {
-                                "compactor": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "persistence": {
-                                            "type": "object",
-                                            "properties": {
-                                                "enabled": {
-                                                    "type": "boolean"
-                                                }
-                                            }
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "distributor": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "ingester": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        },
-                                        "terminationGracePeriodSeconds": {
-                                            "type": "integer"
-                                        }
-                                    }
-                                },
-                                "querier": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "query-frontend": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "query-scheduler": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "store-gateway": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "persistence": {
-                                            "type": "object",
-                                            "properties": {
-                                                "enabled": {
-                                                    "type": "boolean"
-                                                }
-                                            }
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "tenant-settings": {
-                                    "type": "object",
-                                    "properties": {
-                                        "kind": {
-                                            "type": "string"
-                                        },
-                                        "replicaCount": {
-                                            "type": "integer"
-                                        },
-                                        "resources": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
+                            "type": "object"
                         },
                         "config": {
                             "type": "string"
@@ -252,13 +132,13 @@
                         "image": {
                             "type": "object",
                             "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
                                 "pullPolicy": {
                                     "type": "string"
                                 },
                                 "registry": {
+                                    "type": "string"
+                                },
+                                "repository": {
                                     "type": "string"
                                 },
                                 "tag": {
