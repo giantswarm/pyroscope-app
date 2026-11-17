@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change team annotation in `Chart.yaml` to OpenContainers format (`io.giantswarm.application.team`).
 - Update PolicyExceptions to v2 and fallback to v2beta1.
 - Fix ABS config to not override AppVersion in Chart.yaml
+- Update architect to v10.18.0 (giantswarm/pyroscope-app#195)
 
 ### Fixed
 
