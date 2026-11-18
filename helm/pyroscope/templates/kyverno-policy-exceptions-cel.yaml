@@ -67,7 +67,7 @@ spec:
       (request.kind.kind in ['StatefulSet', 'Pod', 'Job'] &&
       request.namespace == 'monitoring' &&
       has(object.metadata.name) &&
-      object.metadata.name.startsWith('pyroscope-minio')) ||
+      (object.metadata.name == 'pyroscope-minio' || object.metadata.name.startsWith('pyroscope-minio-'))) ||
       (request.kind.kind in ['Deployment', 'StatefulSet', 'Pod', 'ServiceAccount'] &&
       request.namespace == '{{ .Release.Namespace }}' &&
       has(object.metadata.name) &&
