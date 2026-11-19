@@ -1,0 +1,80 @@
+{{- if .Values.kyvernoPolicyExceptions.enabled }}
+apiVersion: policies.kyverno.io/v1
+kind: PolicyException
+metadata:
+  annotations:
+    "helm.sh/hook": "pre-install,pre-upgrade"
+  labels:
+    {{- include "pyroscope.labels" . | nindent 4 }}
+  name: {{ include "pyroscope.fullname" . }}
+  namespace: {{ .Values.kyvernoPolicyExceptions.namespace }}
+spec:
+  policyRefs:
+  - name: disallow-capabilities-strict
+    kind: ValidatingPolicy
+  - name: disallow-privilege-escalation
+    kind: ValidatingPolicy
+  - name: require-run-as-nonroot
+    kind: ValidatingPolicy
+  - name: restrict-seccomp-strict
+    kind: ValidatingPolicy
+  - name: require-run-as-non-root-user
+    kind: ValidatingPolicy
+  - name: restrict-image-registries
+    kind: ValidatingPolicy
+  # require-container-requests-and-limits is a supplemental policy and usually
+  # not enabled. It is excepted because the pyroscope-minio and pyroscope-alloy
+  # StatefulSets and the pyroscope-minio-post-job Job fail it when the policy
+  # is enforced.
+  - name: require-container-requests-and-limits
+    kind: ValidatingPolicy
+  # require-pod-probes is a supplemental policy and usually not enabled. It is
+  # excepted because the pyroscope-minio and pyroscope-alloy StatefulSets and
+  # the pyroscope-minio-post-job Pods fail it when the policy is enforced.
+  - name: require-pod-probes
+    kind: ValidatingPolicy
+  # require-ro-rootfs is a supplemental policy and usually not enabled. It is
+  # excepted because the pyroscope-minio and pyroscope-alloy StatefulSets and
+  # the pyroscope-minio-post-job Job fail it when the policy is enforced.
+  - name: require-ro-rootfs
+    kind: ValidatingPolicy
+  # require-emptydir-requests-and-limits is a supplemental policy and usually
+  # not enabled. It is excepted because the pyroscope Deployments and
+  # StatefulSets and the pyroscope-minio-post-job Job fail it when the policy
+  # is enforced.
+  - name: require-emptydir-requests-and-limits
+    kind: ValidatingPolicy
+  # check-resources-request-and-limits-ratio is a supplemental policy and
+  # usually not enabled. It is excepted because the pyroscope Deployments fail
+  # it when the policy is enforced.
+  - name: check-resources-request-and-limits-ratio
+    kind: ValidatingPolicy
+  # restrict-sa-automount-sa-token is a supplemental policy and usually not
+  # enabled. It is excepted because the pyroscope, pyroscope-alloy and minio
+  # ServiceAccounts fail it when the policy is enforced.
+  - name: restrict-sa-automount-sa-token
+    kind: ValidatingPolicy
+  matchConditions:
+  # Block 1 is the legacy match (the bundled MinIO). Job is matched for the
+  # pyroscope-minio-post-job hook Job, which fails the policies above.
+  # No legacy exception covers the rest of the release, so the other blocks
+  # match it by kind, namespace and name:
+  # 2. the pyroscope Deployments and StatefulSets (including pyroscope-alloy),
+  #    their Pods and ServiceAccounts;
+  # 3. the MinIO ServiceAccount, which fails restrict-sa-automount-sa-token.
+  - name: pyroscope-workloads
+    expression: >-
+      (request.kind.kind in ['StatefulSet', 'Pod', 'Job'] &&
+      request.namespace == 'monitoring' &&
+      has(object.metadata.name) &&
+      (object.metadata.name == 'pyroscope-minio' || object.metadata.name.startsWith('pyroscope-minio-'))) ||
+      (request.kind.kind in ['Deployment', 'StatefulSet', 'Pod', 'ServiceAccount'] &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      (object.metadata.name == '{{ include "pyroscope.fullname" . }}' ||
+      object.metadata.name.startsWith('{{ include "pyroscope.fullname" . }}-'))) ||
+      (request.kind.kind == 'ServiceAccount' &&
+      request.namespace == '{{ .Release.Namespace }}' &&
+      has(object.metadata.name) &&
+      object.metadata.name == '{{ .Values.pyroscope.minio.serviceAccount.name }}')
+{{- end }}
