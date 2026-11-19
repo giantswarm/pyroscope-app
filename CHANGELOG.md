@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Move the PolicyExceptions from the `giantswarm` namespace to `kube-system` (`kyvernoPolicyExceptions.namespace`), as the `giantswarm` namespace is going away.
 - Upgraded pyroscope chart from 2.0.1 to 2.2.0, and the pyroscope image from 1.2.1 to 2.2.0.
   The 1.x image does not understand the `-architecture.storage` and `-write-path` flags the
   2.x chart renders.
